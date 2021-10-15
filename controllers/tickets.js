@@ -7,14 +7,10 @@ module.exports = {
 };
 
 function create(req, res) {
-    Flight.findById(req.params.id, function(err, flight) {
-        Ticket.find({ flight: req.params.id }, function(err, tickets) {
-            res.redirect(`/flights/${req.params.id}`, {
-                flight,
-                seat,
-                tickets
-            });
-        });
+    const ticket = new Ticket(req.body);
+    ticket.flight = req.params.id;
+    ticket.save(function(err) {
+        res.redirect(`/flights/${req.params.id}`);
     });
 }
 
